@@ -1,0 +1,37 @@
+Saya telah menambahkan fitur logging debug untuk 20 produk pertama dari Digiflazz selama proses sinkronisasi produk sesuai dengan permintaan Anda tanpa mengubah logika penyimpanan database.
+Berikut adalah detail perubahan yang telah dilakukan:
+1. File yang Diedit
+/server/providers/digiflazz/index.ts
+/server/providers/sync-engine.ts
+2. Fungsi dan Detail Perubahan
+getProducts pada /server/providers/digiflazz/index.ts
+Perubahan: Menyertakan field type (item.type) dalam objek hasil mapping parsedProducts.
+Alasan: Agar field type asli dari Digiflazz dapat diteruskan ke ProductSyncEngine untuk dicetak pada log debug.
+syncProducts pada /server/providers/sync-engine.ts
+Perubahan:
+Memuat semua data PackageTypes dari database pada awal sinkronisasi.
+Menambahkan deteksi apakah provider yang sedang disinkronisasikan menggunakan driver Digiflazz.
+Membatasi pencetakan debug log hingga maksimum 20 produk pertama untuk setiap provider Digiflazz.
+Melakukan lookup dinamis untuk memetakan nama provider, nama kategori (Mapped Category), dan nama jenis paket (Mapped Package Type) berdasarkan package_type_id dan category_id produk.
+Mencetak informasi debug ke console.log dengan format persis sesuai instruksi:
+code
+Code
+================================
+SKU: <kode_produk>
+Nama: <nama_produk>
+Brand Digiflazz: <brand_digiflazz>
+Category Digiflazz: <category_digiflazz>
+Type Digiflazz: <type_digiflazz>
+
+Mapped Provider: <nama_provider>
+Mapped Category: <nama_kategori>
+Mapped Package Type: <nama_jenis_paket>
+
+Provider ID: <provider_id>
+Category ID: <category_id>
+Package Type ID: <package_type_id>
+================================
+Alasan: Memudahkan Anda dalam memverifikasi bahwa pemetaan provider, kategori, dan jenis paket untuk produk Digiflazz sudah berjalan dengan benar tanpa memodifikasi penyimpanan data di database.
+Seluruh proses linter dan kompilasi aplikasi telah diuji dan berjalan sukses dengan hasil yang bersih!
+flag
+Checkpoint
